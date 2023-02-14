@@ -22,7 +22,7 @@ import com.example.fa_pavit_868150_android.ProductDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddProductFragment.OnProductAddedListener {
+public class MainActivity extends AppCompatActivity implements AddProductFragment.OnProductAddedListener, EditProductFragment.OnProductEditedListener {
 
     private ListView listViewProducts;
     private ImageView imageViewAdd;
@@ -61,11 +61,29 @@ public class MainActivity extends AppCompatActivity implements AddProductFragmen
 
         listViewProducts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Product product = products.get(position);
-                Intent intent = new Intent(MainActivity.this, ProductDetailsActivity.class);
-                intent.putExtra("product", (CharSequence) product);
-                startActivity(intent);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Product selectedProduct = (Product) parent.getItemAtPosition(position);
+                listViewProducts.setVisibility(View.GONE);
+                // Show the Add Product fragment
+                imageViewAdd.setVisibility(View.GONE);
+                title.setVisibility(View.GONE);
+                // Create a new instance of the fragment you want to open.
+                EditProductFragment editProductFragment = new EditProductFragment();
+                Bundle args = new Bundle();
+                args.putInt("id", selectedProduct.getId());
+                args.putString("name", selectedProduct.getName());
+                args.putString("description", selectedProduct.getDescription());
+                args.putDouble("price", selectedProduct.getPrice());
+                args.putDouble("latitude", selectedProduct.getLatitude());
+                args.putDouble("longitude", selectedProduct.getLongitude());
+                editProductFragment.setArguments(args);
+
+                // Replace the current fragment with the new instance.
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.fragmentContainer2, editProductFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }
@@ -107,6 +125,15 @@ public class MainActivity extends AppCompatActivity implements AddProductFragmen
     @Override
     public void onProductAdded(Product product) {
         productDAO.insertProduct(product);
+        loadProducts();
+        listViewProducts.setVisibility(View.VISIBLE);
+        imageViewAdd.setVisibility(View.VISIBLE);
+        title.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onProductEdited(Product product) {
+        productDAO.updateProduct(product);
         loadProducts();
         listViewProducts.setVisibility(View.VISIBLE);
         imageViewAdd.setVisibility(View.VISIBLE);
