@@ -12,6 +12,9 @@
         android:theme="@style/Theme.FA_PAVIT_868150_Android"
         tools:targetApi="31">
         <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

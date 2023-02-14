@@ -10,13 +10,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Table information
-    private static final String TABLE_PRODUCTS = "products";
-    private static final String COLUMN_ID = "id";
-    private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_DESCRIPTION = "description";
-    private static final String COLUMN_PRICE = "price";
-    private static final String COLUMN_LATITUDE = "latitude";
-    private static final String COLUMN_LONGITUDE = "longitude";
+    public static final String TABLE_PRODUCTS = "products";
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_PRICE = "price";
+    public static final String COLUMN_LATITUDE = "latitude";
+    public static final String COLUMN_LONGITUDE = "longitude";
 
     private static final String CREATE_TABLE_PRODUCTS = "CREATE TABLE " + TABLE_PRODUCTS + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
